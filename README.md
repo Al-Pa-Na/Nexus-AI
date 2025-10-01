@@ -26,7 +26,7 @@ The agent operates on a modular architecture that separates language understandi
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
