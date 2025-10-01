@@ -1,10 +1,23 @@
+# Virtual Environment
+venv/
+
+# Python auto-generated files
 __pycache__/
 *.pyc
 
-.env
-venv/
+# IDE / Editor folders
+.vscode/
 
+# Environment variables and secrets
+.env
+
+# Authentication and session files
 auth.json
 MyPlaywrightProfile/
 
+# Database files
+database.db
+database.db-journal
+
+# Generated output files
 *.csv

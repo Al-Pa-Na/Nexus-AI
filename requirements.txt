@@ -1,4 +1,6 @@
+google-generativeai
+Flask[async]
 playwright
-openai
-python-dotenv
 pandas
+python-dotenv
+gunicorn
