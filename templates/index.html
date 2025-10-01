@@ -5,37 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus AI</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f4f7f9; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 600px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f4f7f9; color: #333; display: flex; justify-content: center; align-items: flex-start; padding-top: 5vh; min-height: 100vh; margin: 0; box-sizing: border-box; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px/ 30px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 800px; }
         h1 { margin-top: 0; color: #1a1a1a; }
         input[type="text"] { width: 80%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 20px; font-size: 16px; }
-        button { background-color: #007aff; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        button { background-color: #007aff; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 15px; transition: background-color 0.2s; }
         button:hover { background-color: #0056b3; }
-        .result { margin-top: 30px; background-color: #eef7ff; padding: 15px; border-radius: 8px; text-align: left; }
-        .result.error { background-color: #ffebee; color: #c62828; border: 1px solid #c62828; }
+        button:disabled { background-color: #a0a0a0; cursor: not-allowed; }
+        .result { margin-top: 30px; text-align: left; overflow-x: auto; }
+        .result.error { background-color: #ffebee; color: #c62828; border: 1px solid #c62828; padding: 15px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        thead { background-color: #007aff; color: white; }
+        tbody tr:nth-child(even) { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Nexus AI 🤖</h1>
         <p>Enter a command to automate your internship search.</p>
-        <form method="POST">
-            <input type="text" name="command" placeholder="e.g., Find data science internships in Mumbai">
+        <form method="POST" id="commandForm">
+            <input type="text" name="command" id="commandInput" placeholder="e.g., Find data science internships in Mumbai">
             <br>
-            <button type="submit">Run Command</button>
+            <button type="submit" id="submitButton">Run Command</button>
         </form>
 
+        <div id="resultContainer">
         {% if result %}
-            {% if 'Error:' in result %}
+            {% if 'Error:' in result or 'No internships' in result %}
                 <div class="result error">
                     <strong>{{ result }}</strong>
                 </div>
             {% else %}
                 <div class="result">
-                    <strong>{{ result }}</strong>
+                    {{ result | safe }}
                 </div>
             {% endif %}
         {% endif %}
+        </div>
     </div>
+
+    <script>
+        document.getElementById('commandForm').addEventListener('submit', function() {
+            var button = document.getElementById('submitButton');
+            var resultContainer = document.getElementById('resultContainer');
+            
+            button.disabled = true;
+            button.innerText = 'Searching...';
+            
+            // Clear previous results
+            resultContainer.innerHTML = '';
+        });
+    </script>
 </body>
 </html>
