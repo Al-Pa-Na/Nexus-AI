@@ -1,39 +1,39 @@
 # Nexus AI 🤖
 
-Nexus AI is a sophisticated conversational agent designed to serve as a natural language interface for web automation. It leverages a Large Language Model (LLM) to parse user commands, understand intent, and execute complex tasks on a target website, effectively bridging the gap between human language and browser-level actions.
+Nexus AI is a conversational agent that leverages Large Language Models (LLMs) to create an intuitive, natural language interface for web automation. It is designed to replace the process of manual clicking and filtering with simple, high-level commands, demonstrated here on the Internshala website.
 
 ## Key Features
 
-* **Semantic Command Parsing:** Powered by GPT-4o, the agent moves beyond simple keyword matching to understand the full semantic meaning of a user's request, including context and multiple parameters (e.g., job title, location, and time frame).
+* **Dual-Tool AI Agent:** The agent is equipped with two distinct tools and intelligently chooses the correct one based on the user's command:
+    1.  **Internship Scraper:** Finds and filters internship listings.
+    2.  **Chat Scraper:** Downloads and searches through personal chat messages.
+* **Natural Language Understanding:** Utilizes the **Google Gemini API** to parse plain English commands, understand user intent, and extract necessary parameters like keywords and locations.
+* **Live Web Automation:** Employs **Playwright** to run a headless browser, log in securely, navigate dynamic web pages, and scrape data in real-time.
+* **Database Integration:** Scraped data is saved into a persistent **SQLite database**, allowing for data retention and a more robust application architecture.
 
-* **Dynamic Tool Use:** Implements a Model-Context-Protocol approach where the LLM dynamically selects the appropriate Python function (e.g., `search`, `filter`) and populates its arguments based on the user's command. This makes the agent's capabilities easily extendable.
+## Tech Stack
 
-* **Robust Browser Automation:** Utilizes a persistent Playwright context to perform actions reliably, handling login sessions and mimicking human interaction patterns to navigate modern web platforms effectively.
+* **Backend:** Python, Flask
+* **AI:** Google Gemini API
+* **Web Automation:** Playwright
+* **Database:** SQLite
 
-* **Structured Data Extraction:** Intelligently scrapes specified data points from web pages and organizes them into structured formats (`.csv`) for immediate use and analysis.
+## Technical Highlights
 
-## Technical Architecture
-
-The agent operates on a modular architecture that separates language understanding from execution.
-
-1.  **Interface Layer (main.py):** A command-line interface (CLI) captures the user's raw text command.
-
-2.  **LLM Core (OpenAI API):** The user's command, along with a manifest of available tools (`tools.py`), is sent to the GPT-4o model. The LLM acts as the core processor, parsing the command and returning a structured JSON object specifying which function to call and what arguments to use.
-
-3.  **Execution Layer (main.py):** This layer interprets the JSON object from the LLM and calls the corresponding Python function.
-
-4.  **Automation Layer (scraper.py):** This layer contains the low-level Playwright functions that interact directly with the web browser to perform the requested tasks.
+A key challenge addressed during development was building a resilient web scraper capable of handling the target website's frequently changing HTML structure. This was solved by implementing robust, fallback selectors and required a deep dive into browser debugging tools. The project also demonstrates a stable application setup, overcoming common Python dependency conflicts through the use of virtual environments.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
+To get Nexus AI running on a local machine, follow these steps.
 
-- Python 3.10+
-- A valid OpenAI API key
+#### 1. Prerequisites
 
-### Installation & Setup
+* Python 3.11+ installed on your system.
+* A Google AI API Key.
+
+#### 2. Setup
 
 1.  **Clone the repository:**
     ```bash
@@ -41,27 +41,43 @@ The agent operates on a modular architecture that separates language understandi
     cd Nexus-AI
     ```
 
-2.  **Install dependencies:**
+2.  **Create and activate a virtual environment:**
+    ```bash
+    # For Windows
+    py -3.11 -m venv venv
+    venv\Scripts\activate.bat
+    ```
+
+3.  **Install all dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-3.  **Install Playwright browsers:**
+4.  **Install Playwright's browsers:**
     ```bash
     playwright install
     ```
 
-4.  **Set up environment variables:**
-    - Create a `.env` file and add your OpenAI API key: `OPENAI_API_KEY="your_secret_api_key_here"`
+5.  **Set up the environment file:**
+    * Create a file named `.env` in the project root.
+    * Add your API key: `GOOGLE_API_KEY="YOUR_API_KEY_HERE"`
 
-5.  **Run one-time session setup:**
+6.  **Initialize the database:**
+    Run this command once to create the `database.db` file.
+    ```bash
+    python database.py
+    ```
+
+7.  **Run the one-time login setup:**
+    This will open a browser window to log in to Internshala and save the session.
     ```bash
     python setup.py
     ```
 
-### Usage
+#### 3. Run the Application
 
-Start the agent and input your commands at the prompt:
+Start the Flask web server:
 ```bash
-python main.py
+python app.py
 ```
+Then, open your browser and go to `http://127.0.0.1:5000`.
