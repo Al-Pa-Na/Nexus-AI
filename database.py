@@ -15,7 +15,18 @@ def init_db():
     )
     ''')
     
-    print("Database initialized and 'internships' table created.")
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sender TEXT NOT NULL,
+        content TEXT NOT NULL,
+        timestamp TEXT,
+        link TEXT,
+        scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+    
+    print("Database initialized and tables created.")
     conn.commit()
     conn.close()
 
