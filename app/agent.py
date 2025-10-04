@@ -3,8 +3,8 @@ import asyncio
 import sqlite3
 import google.generativeai as genai
 from dotenv import load_dotenv
-import scraper
-import tools
+import app.scraper as scraper
+import app.tools as tools
 
 load_dotenv()
 

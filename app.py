@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from agent import run_conversation
+from app.agent import run_conversation
 
 app = Flask(__name__)
 

@@ -1,5 +1,5 @@
 import asyncio
-from agent import run_conversation
+from app.agent import run_conversation
 
 async def main():
     print("🚀 Welcome to the Nexus AI CLI!")

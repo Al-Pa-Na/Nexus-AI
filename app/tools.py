@@ -1,4 +1,4 @@
-import scraper
+import app.scraper as scraper
 
 tools = [
     scraper.search_and_scrape_internships,
